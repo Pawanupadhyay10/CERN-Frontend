@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Todo, TodoService} from "./todo.service";
 import {Observable} from "rxjs";
+import { LoadingHandler } from './progress-bar/loading-handler';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ import {Observable} from "rxjs";
     <div class="list">
       <label for="search">Search...</label>
       <input id="search" type="text">
-      <app-progress-bar></app-progress-bar>
+      <app-progress-bar *ngIf="loadingHandler.isLoading$ | async"></app-progress-bar>
       <app-todo-item *ngFor="let todo of todos$ | async" [item]="todo"></app-todo-item>
     </div>
   `,
@@ -21,9 +22,13 @@ import {Observable} from "rxjs";
 })
 export class AppComponent {
 
+  loadingHandler= new LoadingHandler();
+
   readonly todos$: Observable<Todo[]>;
 
   constructor(todoService: TodoService) {
+    this.loadingHandler.start();
     this.todos$ = todoService.getAll();
+    this.loadingHandler.finish();
   }
 }
