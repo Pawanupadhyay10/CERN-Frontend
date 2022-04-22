@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from "rxjs";
 import {delay, map} from "rxjs/operators";
+import {HttpClient} from '@angular/common/http'
 
 export interface Todo {
   id: number;
@@ -24,8 +25,12 @@ function removeFromMockData(id: number) {
 })
 export class TodoService {
 
-  getAll(): Observable<Todo[]> {
-    return of(undefined).pipe(delay(2_000), map(() => mockData));
+  url="http://localhost:8099/api"
+   
+  constructor(private http:HttpClient){}
+
+  getAll() {
+    return this.http.get(this.url);
   }
 
   remove(id: number): Observable<void> {

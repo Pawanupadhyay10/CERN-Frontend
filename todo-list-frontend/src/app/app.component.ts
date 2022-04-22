@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Todo, TodoService} from "./todo.service";
 import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http'
 
 @Component({
   selector: 'app-root',
@@ -14,16 +15,20 @@ import {Observable} from "rxjs";
       <label for="search">Search...</label>
       <input id="search" type="text">
       <app-progress-bar></app-progress-bar>
-      <app-todo-item *ngFor="let todo of todos$ | async" [item]="todo"></app-todo-item>
+      <app-todo-item *ngFor="let todo of data | async" [item]="todo"></app-todo-item>
     </div>
   `,
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  
+data:any;
 
-  readonly todos$: Observable<Todo[]>;
-
-  constructor(todoService: TodoService) {
-    this.todos$ = todoService.getAll();
+  constructor(private todoService: TodoService){}
+  ngOnInit(){
+    this.todoService.getAll().subscribe((res)=>{
+         console.log("result",res);
+         this.data=res;
+    })
   }
 }
