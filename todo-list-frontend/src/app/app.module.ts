@@ -5,12 +5,14 @@ import {AppComponent} from './app.component';
 import {TodoItemComponent} from './todo-item/todo-item.component';
 import {FormsModule} from "@angular/forms";
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import { FilterpipePipe } from './pipes/filterpipe.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoItemComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    FilterpipePipe
   ],
     imports: [
         BrowserModule,
